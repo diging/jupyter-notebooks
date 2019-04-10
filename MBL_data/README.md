@@ -11,4 +11,4 @@ pip install -r requirements.txt
 ```
 from within the MBL_data folder.
 
-Then adjust the parameters as described in the notebook and execute all cells.
+Then run Jupyter notebooks, adjust the parameters as described in the notebook and execute all cells.
