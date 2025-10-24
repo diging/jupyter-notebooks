@@ -1,0 +1,6 @@
+export BASE_URL="https://citesphere.instance/citesphere"
+export REVOKE_TOKEN_URL="" # ok to leave empty
+export CLIENT_ID=""
+export CLIENT_SECRET=""
+export REDIRECT_URI="http://localhost:8501" # change if Streamlist runs on another port or hosted
+export SCOPE="read"
