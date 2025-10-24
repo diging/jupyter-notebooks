@@ -7,7 +7,7 @@ import glob
 
 st.title('Uploads Files into Citesphere')
 st.markdown('''
-            To upload Files to Citesphere, do the following: 
+            To upload files to Citesphere, do the following: 
             
             - Click "Authorize" and login and grant access to Citesphere.
             - If the files you want to upload are not in a folder next to the code for this app called "files" change the folder name.

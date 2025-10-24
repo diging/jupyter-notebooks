@@ -3,4 +3,4 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 source app.config
-streamlit run upload-app.py 
+streamlit run download-app.py 
