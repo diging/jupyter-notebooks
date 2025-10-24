@@ -18,4 +18,5 @@ Once those configurations are set, you can run the upload app by calling `./run-
 - install all required dependencies
 - start the Streamlit app
 
-In your browser, navigate to `http://localhost:8501` (this will probably have opened by itself).
+In your browser, navigate to `http://localhost:8501` (this will probably have opened by itself). Make sure the files you want to have uploaded are in the `files` folder.
+
