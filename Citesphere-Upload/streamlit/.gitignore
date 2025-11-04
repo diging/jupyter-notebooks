@@ -1,3 +1,5 @@
 app.config
 files/*
 !files/.gitkeep
+download/*
+!download/.gitkeep

@@ -71,7 +71,7 @@ def import_files():
     current_index = 0
     for path in glob_files:
         current_index+=1
-        progress_bar.progress(total_files/current_index, text="Uploading files..." + os.path.basename(path).split('/')[-1])
+        progress_bar.progress(current_index/total_files, text="Uploading files..." + os.path.basename(path).split('/')[-1])
         #log.write(f"Submitting {os.path.basename(path).split('/')[-1]} to {API_URL}")
         data = {
             'title': os.path.basename(path).split('/')[-1],

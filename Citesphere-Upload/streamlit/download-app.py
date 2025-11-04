@@ -7,7 +7,7 @@ import json
 import time
 import traceback
 
-st.set_page_config(page_title="Upload to Citesphere", layout="wide")
+st.set_page_config(page_title="Download from Citesphere", layout="wide")
 st.title('Download Files from Citesphere')
 st.markdown('''To download files from Citesphere, do the following:   
                     
@@ -180,7 +180,6 @@ def execute_download():
                             log.write("Encountered an error!")
                             log.write(upload)
                             log.write(traceback.print_exc())
-            log.write(file_ids)
             for file_id in file_ids:
                 time.sleep(0.5)
                 download_file(file_id)
