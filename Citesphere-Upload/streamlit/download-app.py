@@ -14,7 +14,6 @@ st.markdown('''To download files from Citesphere, do the following:
 - Click "Authorize" and login and grant access to Citesphere.
 - If you want to download files into a different folder than the default `download` folder, change the name in the input field.
 - Enter the group id of the Zotero group you want to download files from.
-- Enter the base URL of the Citesphere instance you want to download files from. Ensure the URL has not trailing slash.
 - Click "Download Files."
             
  ''')
@@ -30,12 +29,10 @@ CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 REDIRECT_URI = os.environ.get('REDIRECT_URI')
 SCOPE = os.environ.get('SCOPE')
 
+GILES_ROOT = os.environ.get('GILES_BASE_URL')
+
 # Download App
-FOLDER_NAME = 'download/'
-GROUP_ID = ''
-CITESPHERE_API_URL = ''
 TOKEN = ''
-GILES_ROOT = ''
 
 # Create OAuth2Component instance
 oauth2 = OAuth2Component(CLIENT_ID, CLIENT_SECRET, AUTHORIZE_URL, TOKEN_URL, REFRESH_TOKEN_URL, REVOKE_TOKEN_URL)
@@ -61,13 +58,11 @@ else:
 col1, log = st.columns(2)
 spinner = log.empty()
 
-FOLDER_NAME = col1.text_input("Folder name to download files into", value="download/", key="folder_name")
+col1.text_input("Folder name to download files into", value="download/", key="folder_name")
 GROUP_ID = col1.text_input("Group ID to download texts from", key="group_id")
-CITESPHERE_API_URL = col1.text_input("Citesphere API Base URL (remove trailing slash)", key="citesphere_base_url")
-GILES_ROOT = col1.text_input("Giles API Base URL (remove trailing slash)", key="giles_base_url")
 
 # the following should only be changed if the Citesphere API changes
-ITEMS_API_URL = f"{CITESPHERE_API_URL}/api/v1/groups/{GROUP_ID}/items"
+ITEMS_API_URL = f"{BASE_URL}/api/v1/groups/{GROUP_ID}/items"
 UPLOAD_BY_PROGRESS = f"{GILES_ROOT}/api/v2/files/upload/check/"
 UPLOAD_ENDPOINT = f"{GILES_ROOT}/api/v2/resources/files/upload/"
 
@@ -95,26 +90,16 @@ def download_file(file_id):
     endpoint = f"{GILES_ROOT}/api/v2/resources/files/{file_id}/content"
     headers = {'Authorization': f'Bearer {TOKEN}'}
     response = requests.get(endpoint, headers=headers)
-    filename = get_filename_from_response(response)
+    filename = f'{file_id}_{get_filename_from_response(response)}'
 
     # if we have a filename, we'll download the file
-    # this will override files with the same name in the folder FOLDER_NAME!
+    # this will override files with the same name (file_id + filename) in the folder FOLDER_NAME!
     log.write(f"Trying to download {filename}.")
     if filename:
-        with open(FOLDER_NAME + filename, 'wb') as file:
-            file.write(response.content)
-
-def download_file(file_id):
-    endpoint = f"{GILES_ROOT}/api/v2/resources/files/{file_id}/content"
-    headers = {'Authorization': f'Bearer {TOKEN}'}
-    response = requests.get(endpoint, headers=headers)
-    filename = get_filename_from_response(response)
-
-    # if we have a filename, we'll download the file
-    # this will override files with the same name in the folder FOLDER_NAME!
-    log.write(f"Trying to download {filename}.")
-    if filename:
-        with open(FOLDER_NAME + filename, 'wb') as file:
+        folder_name = st.session_state["folder_name"]
+        if not folder_name.endswith("/"):
+            folder_name = folder_name + "/"
+        with open(folder_name + filename, 'wb') as file:
             file.write(response.content)
 
 def get_file_id_from_progress(progress_id):

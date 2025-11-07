@@ -12,7 +12,6 @@ st.markdown('''
             - Click "Authorize" and login and grant access to Citesphere.
             - If the files you want to upload are not in a folder next to the code for this app called "files" change the folder name.
             - Enter the group id of the Zotero group you want to upload files into.
-            - Enter the base URL of the Citesphere instance you want to upload files to. Ensure the URL has not trailing slash.
             - Click "Upload Files."
             ''')
 
@@ -86,11 +85,10 @@ col1, log = st.columns(2)
 # enter variables we need
 col1.text_input("Folder name that has files", value="files", key="folder_name")
 col1.text_input("Group ID to Import Into", key="group_id")
-col1.text_input("Citesphere API Base URL (remove trailing slash)", key="citesphere_base_url")
 
 col1.button("Upload Files", type="primary", on_click=import_files)
 
 progress_bar = log.progress(0, text='Click "Upload Files" to start uploading.')
 
-API_URL = f"{st.session_state.citesphere_base_url}/api/v1/groups/{st.session_state.group_id}/items/create"
+API_URL = f"{BASE_URL}/api/v1/groups/{st.session_state.group_id}/items/create"
 
